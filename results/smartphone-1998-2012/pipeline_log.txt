@@ -1,0 +1,288 @@
+--- Pipeline start: smartphone-1998-2012 la 2026-03-17 02:23:31.000097 ---
+
+--- 1. Preprocesare ---
+Comandă: python -u src/preprocess.py --input raw-inputs/smartphone-1998-2012.jsonl --out_dir results/smartphone-1998-2012_20260317_0223/data
+
+Parsing Lens Data: 0it [00:00, ?it/s]
+Parsing Lens Data: 818it [00:00, 8178.45it/s]
+Parsing Lens Data: 1636it [00:00, 6283.08it/s]
+Parsing Lens Data: 2291it [00:00, 5160.87it/s]
+Parsing Lens Data: 3087it [00:00, 6009.68it/s]
+Parsing Lens Data: 3726it [00:00, 5642.75it/s]
+Parsing Lens Data: 4315it [00:00, 5189.54it/s]
+Parsing Lens Data: 5007it [00:00, 5636.85it/s]
+Parsing Lens Data: 5591it [00:00, 5514.31it/s]
+Parsing Lens Data: 6304it [00:01, 5962.18it/s]
+Parsing Lens Data: 7000it [00:01, 6244.39it/s]
+Parsing Lens Data: 7637it [00:01, 5572.23it/s]
+Parsing Lens Data: 8302it [00:01, 5857.22it/s]
+Parsing Lens Data: 8906it [00:01, 5302.81it/s]
+Parsing Lens Data: 9493it [00:01, 5451.14it/s]
+Parsing Lens Data: 10055it [00:01, 4674.56it/s]
+Parsing Lens Data: 10699it [00:01, 5112.36it/s]
+Parsing Lens Data: 11239it [00:02, 4656.88it/s]
+Parsing Lens Data: 11798it [00:02, 4890.92it/s]
+Parsing Lens Data: 12458it [00:02, 5341.30it/s]
+Parsing Lens Data: 13014it [00:02, 5189.59it/s]
+Parsing Lens Data: 13549it [00:02, 4950.04it/s]
+Parsing Lens Data: 14087it [00:02, 5065.47it/s]
+Parsing Lens Data: 14302it [00:02, 5398.05it/s]
+Gata! Am găsit 11152 patente și 351869 legături de citație.
+
+========================================
+
+--- 2. Generare Embeddings ---
+Comandă: python -u src/embed.py --input results/smartphone-1998-2012_20260317_0223/data/processed_patents.csv --out results/smartphone-1998-2012_20260317_0223/data/patent_embeddings.npy
+/Users/ecaterina/Documents/patent-pipeline/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Se procesează 11152 patente...
+🚀 Se folosește acceleratorul hardware: MPS
+Procesare rapidă pe placa video...
+
+Batches:   0%|          | 0/175 [00:00<?, ?it/s]
+Batches:   1%|          | 1/175 [00:09<26:53,  9.27s/it]
+Batches:   1%|          | 2/175 [00:16<23:06,  8.02s/it]
+Batches:   2%|▏         | 3/175 [00:21<19:48,  6.91s/it]
+Batches:   2%|▏         | 4/175 [00:28<19:40,  6.91s/it]
+Batches:   3%|▎         | 5/175 [00:36<19:58,  7.05s/it]
+Batches:   3%|▎         | 6/175 [00:41<18:29,  6.57s/it]
+Batches:   4%|▍         | 7/175 [00:46<16:37,  5.93s/it]
+Batches:   5%|▍         | 8/175 [00:53<17:07,  6.15s/it]
+Batches:   5%|▌         | 9/175 [00:59<17:34,  6.35s/it]
+Batches:   6%|▌         | 10/175 [01:04<16:13,  5.90s/it]
+Batches:   6%|▋         | 11/175 [01:09<15:13,  5.57s/it]
+Batches:   7%|▋         | 12/175 [01:13<13:58,  5.14s/it]
+Batches:   7%|▋         | 13/175 [01:17<12:54,  4.78s/it]
+Batches:   8%|▊         | 14/175 [01:21<11:57,  4.46s/it]
+Batches:   9%|▊         | 15/175 [01:25<11:13,  4.21s/it]
+Batches:   9%|▉         | 16/175 [01:28<10:34,  3.99s/it]
+Batches:  10%|▉         | 17/175 [01:32<10:52,  4.13s/it]
+Batches:  10%|█         | 18/175 [01:36<10:31,  4.02s/it]
+Batches:  11%|█         | 19/175 [01:40<10:09,  3.91s/it]
+Batches:  11%|█▏        | 20/175 [01:43<09:46,  3.78s/it]
+Batches:  12%|█▏        | 21/175 [01:48<10:31,  4.10s/it]
+Batches:  13%|█▎        | 22/175 [01:52<10:10,  3.99s/it]
+Batches:  13%|█▎        | 23/175 [01:55<09:38,  3.81s/it]
+Batches:  14%|█▎        | 24/175 [02:00<10:03,  4.00s/it]
+Batches:  14%|█▍        | 25/175 [02:04<09:51,  3.95s/it]
+Batches:  15%|█▍        | 26/175 [02:07<09:32,  3.84s/it]
+Batches:  15%|█▌        | 27/175 [02:11<09:29,  3.85s/it]
+Batches:  16%|█▌        | 28/175 [02:15<09:38,  3.94s/it]
+Batches:  17%|█▋        | 29/175 [02:20<10:06,  4.15s/it]
+Batches:  17%|█▋        | 30/175 [02:24<10:03,  4.16s/it]
+Batches:  18%|█▊        | 31/175 [02:28<10:03,  4.19s/it]
+Batches:  18%|█▊        | 32/175 [02:35<11:34,  4.86s/it]
+Batches:  19%|█▉        | 33/175 [02:40<11:34,  4.89s/it]
+Batches:  19%|█▉        | 34/175 [02:44<11:21,  4.83s/it]
+Batches:  20%|██        | 35/175 [02:50<11:28,  4.92s/it]
+Batches:  21%|██        | 36/175 [02:54<11:19,  4.89s/it]
+Batches:  21%|██        | 37/175 [03:00<11:34,  5.03s/it]
+Batches:  22%|██▏       | 38/175 [03:05<11:42,  5.13s/it]
+Batches:  22%|██▏       | 39/175 [03:10<11:38,  5.13s/it]
+Batches:  23%|██▎       | 40/175 [03:15<11:23,  5.06s/it]
+Batches:  23%|██▎       | 41/175 [03:20<10:53,  4.88s/it]
+Batches:  24%|██▍       | 42/175 [03:24<10:24,  4.69s/it]
+Batches:  25%|██▍       | 43/175 [03:28<10:17,  4.68s/it]
+Batches:  25%|██▌       | 44/175 [03:33<10:26,  4.78s/it]
+Batches:  26%|██▌       | 45/175 [03:38<09:53,  4.57s/it]
+Batches:  26%|██▋       | 46/175 [03:43<10:06,  4.70s/it]
+Batches:  27%|██▋       | 47/175 [03:48<10:15,  4.81s/it]
+Batches:  27%|██▋       | 48/175 [03:53<10:35,  5.00s/it]
+Batches:  28%|██▊       | 49/175 [03:58<10:35,  5.05s/it]
+Batches:  29%|██▊       | 50/175 [04:03<10:29,  5.03s/it]
+Batches:  29%|██▉       | 51/175 [04:09<10:37,  5.14s/it]
+Batches:  30%|██▉       | 52/175 [04:15<11:17,  5.51s/it]
+Batches:  30%|███       | 53/175 [04:21<11:28,  5.64s/it]
+Batches:  31%|███       | 54/175 [04:25<10:37,  5.27s/it]
+Batches:  31%|███▏      | 55/175 [04:29<09:47,  4.90s/it]
+Batches:  32%|███▏      | 56/175 [04:34<09:43,  4.90s/it]
+Batches:  33%|███▎      | 57/175 [04:39<09:15,  4.71s/it]
+Batches:  33%|███▎      | 58/175 [04:43<09:02,  4.63s/it]
+Batches:  34%|███▎      | 59/175 [04:47<08:24,  4.35s/it]
+Batches:  34%|███▍      | 60/175 [04:51<08:04,  4.21s/it]
+Batches:  35%|███▍      | 61/175 [04:55<07:51,  4.13s/it]
+Batches:  35%|███▌      | 62/175 [04:58<07:38,  4.06s/it]
+Batches:  36%|███▌      | 63/175 [05:02<07:16,  3.90s/it]
+Batches:  37%|███▋      | 64/175 [05:06<07:02,  3.81s/it]
+Batches:  37%|███▋      | 65/175 [05:10<07:27,  4.07s/it]
+Batches:  38%|███▊      | 66/175 [05:14<07:21,  4.05s/it]
+Batches:  38%|███▊      | 67/175 [05:18<07:01,  3.90s/it]
+Batches:  39%|███▉      | 68/175 [05:21<06:51,  3.84s/it]
+Batches:  39%|███▉      | 69/175 [05:25<06:49,  3.87s/it]
+Batches:  40%|████      | 70/175 [05:29<06:42,  3.83s/it]
+Batches:  41%|████      | 71/175 [05:33<06:32,  3.77s/it]
+Batches:  41%|████      | 72/175 [05:37<06:28,  3.78s/it]
+Batches:  42%|████▏     | 73/175 [05:40<06:25,  3.78s/it]
+Batches:  42%|████▏     | 74/175 [05:44<06:16,  3.73s/it]
+Batches:  43%|████▎     | 75/175 [05:48<06:07,  3.67s/it]
+Batches:  43%|████▎     | 76/175 [05:51<05:54,  3.58s/it]
+Batches:  44%|████▍     | 77/175 [05:54<05:46,  3.54s/it]
+Batches:  45%|████▍     | 78/175 [05:58<05:36,  3.47s/it]
+Batches:  45%|████▌     | 79/175 [06:01<05:41,  3.56s/it]
+Batches:  46%|████▌     | 80/175 [06:05<05:30,  3.48s/it]
+Batches:  46%|████▋     | 81/175 [06:08<05:28,  3.49s/it]
+Batches:  47%|████▋     | 82/175 [06:11<05:14,  3.38s/it]
+Batches:  47%|████▋     | 83/175 [06:15<05:12,  3.40s/it]
+Batches:  48%|████▊     | 84/175 [06:18<05:10,  3.41s/it]
+Batches:  49%|████▊     | 85/175 [06:22<05:06,  3.40s/it]
+Batches:  49%|████▉     | 86/175 [06:25<04:57,  3.34s/it]
+Batches:  50%|████▉     | 87/175 [06:28<04:46,  3.26s/it]
+Batches:  50%|█████     | 88/175 [06:31<04:44,  3.27s/it]
+Batches:  51%|█████     | 89/175 [06:34<04:32,  3.17s/it]
+Batches:  51%|█████▏    | 90/175 [06:38<04:38,  3.28s/it]
+Batches:  52%|█████▏    | 91/175 [06:41<04:25,  3.16s/it]
+Batches:  53%|█████▎    | 92/175 [06:44<04:28,  3.24s/it]
+Batches:  53%|█████▎    | 93/175 [06:47<04:16,  3.13s/it]
+Batches:  54%|█████▎    | 94/175 [06:50<04:20,  3.21s/it]
+Batches:  54%|█████▍    | 95/175 [06:53<04:09,  3.11s/it]
+Batches:  55%|█████▍    | 96/175 [06:57<04:16,  3.25s/it]
+Batches:  55%|█████▌    | 97/175 [07:00<04:05,  3.14s/it]
+Batches:  56%|█████▌    | 98/175 [07:02<03:51,  3.00s/it]
+Batches:  57%|█████▋    | 99/175 [07:05<03:50,  3.03s/it]
+Batches:  57%|█████▋    | 100/175 [07:09<03:52,  3.10s/it]
+Batches:  58%|█████▊    | 101/175 [07:12<03:57,  3.21s/it]
+Batches:  58%|█████▊    | 102/175 [07:15<03:50,  3.15s/it]
+Batches:  59%|█████▉    | 103/175 [07:18<03:35,  2.99s/it]
+Batches:  59%|█████▉    | 104/175 [07:21<03:31,  2.97s/it]
+Batches:  60%|██████    | 105/175 [07:23<03:18,  2.84s/it]
+Batches:  61%|██████    | 106/175 [07:26<03:13,  2.80s/it]
+Batches:  61%|██████    | 107/175 [07:28<03:05,  2.72s/it]
+Batches:  62%|██████▏   | 108/175 [07:32<03:16,  2.94s/it]
+Batches:  62%|██████▏   | 109/175 [07:34<03:04,  2.80s/it]
+Batches:  63%|██████▎   | 110/175 [07:37<02:59,  2.76s/it]
+Batches:  63%|██████▎   | 111/175 [07:39<02:51,  2.67s/it]
+Batches:  64%|██████▍   | 112/175 [07:42<02:48,  2.67s/it]
+Batches:  65%|██████▍   | 113/175 [07:45<02:58,  2.87s/it]
+Batches:  65%|██████▌   | 114/175 [07:48<02:52,  2.83s/it]
+Batches:  66%|██████▌   | 115/175 [07:51<02:46,  2.78s/it]
+Batches:  66%|██████▋   | 116/175 [07:53<02:40,  2.71s/it]
+Batches:  67%|██████▋   | 117/175 [07:56<02:35,  2.68s/it]
+Batches:  67%|██████▋   | 118/175 [07:58<02:27,  2.58s/it]
+Batches:  68%|██████▊   | 119/175 [08:02<02:37,  2.81s/it]
+Batches:  69%|██████▊   | 120/175 [08:04<02:26,  2.66s/it]
+Batches:  69%|██████▉   | 121/175 [08:06<02:19,  2.57s/it]
+Batches:  70%|██████▉   | 122/175 [08:09<02:16,  2.58s/it]
+Batches:  70%|███████   | 123/175 [08:11<02:12,  2.54s/it]
+Batches:  71%|███████   | 124/175 [08:14<02:10,  2.56s/it]
+Batches:  71%|███████▏  | 125/175 [08:17<02:09,  2.58s/it]
+Batches:  72%|███████▏  | 126/175 [08:19<02:00,  2.47s/it]
+Batches:  73%|███████▎  | 127/175 [08:22<02:04,  2.59s/it]
+Batches:  73%|███████▎  | 128/175 [08:24<02:02,  2.61s/it]
+Batches:  74%|███████▎  | 129/175 [08:29<02:33,  3.34s/it]
+Batches:  74%|███████▍  | 130/175 [08:32<02:16,  3.03s/it]
+Batches:  75%|███████▍  | 131/175 [08:34<02:01,  2.77s/it]
+Batches:  75%|███████▌  | 132/175 [08:37<01:57,  2.74s/it]
+Batches:  76%|███████▌  | 133/175 [08:39<01:50,  2.63s/it]
+Batches:  77%|███████▋  | 134/175 [08:41<01:45,  2.57s/it]
+Batches:  77%|███████▋  | 135/175 [08:44<01:46,  2.66s/it]
+Batches:  78%|███████▊  | 136/175 [08:47<01:42,  2.63s/it]
+Batches:  78%|███████▊  | 137/175 [08:49<01:33,  2.46s/it]
+Batches:  79%|███████▉  | 138/175 [08:52<01:32,  2.51s/it]
+Batches:  79%|███████▉  | 139/175 [08:54<01:26,  2.39s/it]
+Batches:  80%|████████  | 140/175 [08:56<01:22,  2.37s/it]
+Batches:  81%|████████  | 141/175 [08:59<01:22,  2.43s/it]
+Batches:  81%|████████  | 142/175 [09:01<01:16,  2.33s/it]
+Batches:  82%|████████▏ | 143/175 [09:03<01:12,  2.28s/it]
+Batches:  82%|████████▏ | 144/175 [09:05<01:12,  2.33s/it]
+Batches:  83%|████████▎ | 145/175 [09:08<01:13,  2.46s/it]
+Batches:  83%|████████▎ | 146/175 [09:12<01:20,  2.78s/it]
+Batches:  84%|████████▍ | 147/175 [09:16<01:31,  3.26s/it]
+Batches:  85%|████████▍ | 148/175 [09:20<01:31,  3.39s/it]
+Batches:  85%|████████▌ | 149/175 [09:22<01:22,  3.16s/it]
+Batches:  86%|████████▌ | 150/175 [09:24<01:10,  2.82s/it]
+Batches:  86%|████████▋ | 151/175 [09:26<01:01,  2.56s/it]
+Batches:  87%|████████▋ | 152/175 [09:28<00:52,  2.30s/it]
+Batches:  87%|████████▋ | 153/175 [09:31<00:56,  2.56s/it]
+Batches:  88%|████████▊ | 154/175 [09:35<01:00,  2.87s/it]
+Batches:  89%|████████▊ | 155/175 [09:38<01:00,  3.01s/it]
+Batches:  89%|████████▉ | 156/175 [09:41<00:59,  3.15s/it]
+Batches:  90%|████████▉ | 157/175 [09:43<00:49,  2.77s/it]
+Batches:  90%|█████████ | 158/175 [09:46<00:47,  2.79s/it]
+Batches:  91%|█████████ | 159/175 [09:48<00:40,  2.51s/it]
+Batches:  91%|█████████▏| 160/175 [09:50<00:33,  2.26s/it]
+Batches:  92%|█████████▏| 161/175 [09:51<00:29,  2.07s/it]
+Batches:  93%|█████████▎| 162/175 [09:53<00:24,  1.91s/it]
+Batches:  93%|█████████▎| 163/175 [09:54<00:21,  1.81s/it]
+Batches:  94%|█████████▎| 164/175 [09:56<00:19,  1.76s/it]
+Batches:  94%|█████████▍| 165/175 [09:58<00:16,  1.65s/it]
+Batches:  95%|█████████▍| 166/175 [09:59<00:14,  1.62s/it]
+Batches:  95%|█████████▌| 167/175 [10:00<00:12,  1.57s/it]
+Batches:  96%|█████████▌| 168/175 [10:02<00:11,  1.63s/it]
+Batches:  97%|█████████▋| 169/175 [10:04<00:09,  1.55s/it]
+Batches:  97%|█████████▋| 170/175 [10:05<00:07,  1.49s/it]
+Batches:  98%|█████████▊| 171/175 [10:06<00:05,  1.49s/it]
+Batches:  98%|█████████▊| 172/175 [10:08<00:04,  1.44s/it]
+Batches:  99%|█████████▉| 173/175 [10:09<00:03,  1.50s/it]
+Batches:  99%|█████████▉| 174/175 [10:10<00:01,  1.36s/it]
+Batches: 100%|██████████| 175/175 [10:11<00:00,  1.16s/it]
+Batches: 100%|██████████| 175/175 [10:11<00:00,  3.50s/it]
+Succes! Matricea de dimensiune (11152, 768) a fost salvată în results/smartphone-1998-2012_20260317_0223/data/patent_embeddings.npy
+
+========================================
+
+--- 3. Construcție Graf ---
+Comandă: python -u src/build_graph.py --data_dir results/smartphone-1998-2012_20260317_0223/data
+/Users/ecaterina/Documents/patent-pipeline/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Filtrare temporală: Am păstrat 2590 din 347442 citații.
+Succes! Graful a fost salvat în 'results/smartphone-1998-2012_20260317_0223/data/hetero_graph.pt'.
+
+========================================
+
+--- 4. Antrenare DMON-DPR ---
+Comandă: python -u src/train.py --data_dir results/smartphone-1998-2012_20260317_0223/data --model_dir results/smartphone-1998-2012_20260317_0223/models
+/Users/ecaterina/Documents/patent-pipeline/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Epoch 020 | Modularity: 0.0028 | Dist: 0.3190
+Epoch 040 | Modularity: 0.0055 | Dist: 0.1129
+Epoch 060 | Modularity: 0.0117 | Dist: 0.0491
+Epoch 080 | Modularity: 0.0330 | Dist: 0.0206
+Epoch 100 | Modularity: 0.0559 | Dist: 0.0112
+Epoch 120 | Modularity: 0.0724 | Dist: 0.0074
+Epoch 140 | Modularity: 0.0954 | Dist: 0.0052
+Epoch 160 | Modularity: 0.1227 | Dist: 0.0042
+Epoch 180 | Modularity: 0.1514 | Dist: 0.0037
+Epoch 200 | Modularity: 0.1786 | Dist: 0.0035
+Antrenare finalizată cu algoritmul DMON-DPR.
+
+========================================
+
+--- 5. Analiză Clustere ---
+Comandă: python -u src/analyze.py --data_dir results/smartphone-1998-2012_20260317_0223/data --model_dir results/smartphone-1998-2012_20260317_0223/models
+/Users/ecaterina/Documents/patent-pipeline/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+
+--- Analiza DMON-DPR (High Fragmentation) ---
+     cluster  size  ...  unique_firms  fragmentation_index
+77        81    27  ...            22                0.815
+68        71    56  ...            40                0.714
+53        56    54  ...            11                0.204
+90        94    55  ...            14                0.255
+274      296    36  ...            49                1.361
+224      242    47  ...            22                0.468
+158      169    50  ...            36                0.720
+264      284    42  ...            47                1.119
+170      181    29  ...            26                0.897
+229      247    37  ...            46                1.243
+270      292    45  ...            50                1.111
+219      234    38  ...            24                0.632
+165      176    35  ...            52                1.486
+249      268    39  ...            26                0.667
+227      245    56  ...            41                0.732
+
+[15 rows x 6 columns]
+
+Rezultate salvate în results/smartphone-1998-2012_20260317_0223/data/thicket_stats_dmon.csv
+
+========================================
+
+--- 6. Căutare Tripluri ---
+Comandă: python -u src/find_triples.py --data_dir results/smartphone-1998-2012_20260317_0223/data
+
+--- Validare prin Metoda Triplurilor ---
+   cluster  num_triples  firms_involved_in_triples  total_firms_in_cluster
+0       71           14                          7                      23
+Salvat în results/smartphone-1998-2012_20260317_0223/data/triple_stats.csv
+
+========================================
+

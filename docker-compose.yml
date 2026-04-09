@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: patent_pipeline_web
+    ports:
+      - "5000:5000"
+    volumes:
+      # This links your Mac's raw_inputs folder to the container's raw_inputs folder
+      - ./raw_inputs:/app/raw_inputs
+      # This ensures the final outputs are saved directly to your Mac
+      - ./results:/app/results

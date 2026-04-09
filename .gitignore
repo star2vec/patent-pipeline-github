@@ -1,0 +1,10 @@
+venv/
+.venv/
+env/
+bin/
+lib/
+__pycache__/
+*.pyc
+.DS_Store
+# Add any large data folders here, for example:
+data/

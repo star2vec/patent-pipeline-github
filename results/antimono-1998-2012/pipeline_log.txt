@@ -1,0 +1,309 @@
+--- Pipeline start: antimono-1998-2012 la 2026-03-17 02:38:39.174391 ---
+
+--- 1. Preprocesare ---
+Comandă: python -u src/preprocess.py --input raw-inputs/antimono-1998-2012.jsonl --out_dir results/antimono-1998-2012_20260317_0238/data
+
+Parsing Lens Data: 0it [00:00, ?it/s]
+Parsing Lens Data: 325it [00:00, 3247.05it/s]
+Parsing Lens Data: 650it [00:00, 2450.14it/s]
+Parsing Lens Data: 938it [00:00, 2612.32it/s]
+Parsing Lens Data: 1209it [00:00, 2433.79it/s]
+Parsing Lens Data: 1566it [00:00, 2781.01it/s]
+Parsing Lens Data: 1853it [00:00, 2470.53it/s]
+Parsing Lens Data: 2234it [00:00, 2846.84it/s]
+Parsing Lens Data: 2532it [00:00, 2490.64it/s]
+Parsing Lens Data: 2820it [00:01, 2589.92it/s]
+Parsing Lens Data: 3143it [00:01, 2761.21it/s]
+Parsing Lens Data: 3430it [00:01, 2406.24it/s]
+Parsing Lens Data: 3695it [00:01, 2466.56it/s]
+Parsing Lens Data: 3953it [00:01, 2146.22it/s]
+Parsing Lens Data: 4269it [00:01, 2395.62it/s]
+Parsing Lens Data: 4524it [00:01, 2217.52it/s]
+Parsing Lens Data: 4758it [00:01, 2209.83it/s]
+Parsing Lens Data: 4988it [00:02, 2233.24it/s]
+Parsing Lens Data: 5234it [00:02, 2292.95it/s]
+Parsing Lens Data: 5469it [00:02, 2088.50it/s]
+Parsing Lens Data: 5767it [00:02, 2325.18it/s]
+Parsing Lens Data: 6007it [00:02, 2136.07it/s]
+Parsing Lens Data: 6229it [00:02, 2047.71it/s]
+Parsing Lens Data: 6469it [00:02, 2139.28it/s]
+Parsing Lens Data: 6688it [00:02, 1916.52it/s]
+Parsing Lens Data: 6887it [00:03, 1842.72it/s]
+Parsing Lens Data: 7160it [00:03, 2072.28it/s]
+Parsing Lens Data: 7424it [00:03, 2225.49it/s]
+Parsing Lens Data: 7653it [00:03, 2084.21it/s]
+Parsing Lens Data: 7924it [00:03, 2253.03it/s]
+Parsing Lens Data: 8156it [00:03, 2139.20it/s]
+Parsing Lens Data: 8450it [00:03, 2349.90it/s]
+Parsing Lens Data: 8691it [00:03, 2011.01it/s]
+Parsing Lens Data: 8931it [00:03, 2109.21it/s]
+Parsing Lens Data: 9153it [00:04, 2120.42it/s]
+Parsing Lens Data: 9425it [00:04, 2279.05it/s]
+Parsing Lens Data: 9660it [00:04, 2295.05it/s]
+Parsing Lens Data: 9895it [00:04, 2062.23it/s]
+Parsing Lens Data: 10142it [00:04, 2171.06it/s]
+Parsing Lens Data: 10366it [00:04, 2121.25it/s]
+Parsing Lens Data: 10623it [00:04, 2243.62it/s]
+Parsing Lens Data: 10772it [00:04, 2285.56it/s]
+Gata! Am găsit 10772 patente și 288567 legături de citație.
+
+========================================
+
+--- 2. Generare Embeddings ---
+Comandă: python -u src/embed.py --input results/antimono-1998-2012_20260317_0238/data/processed_patents.csv --out results/antimono-1998-2012_20260317_0238/data/patent_embeddings.npy
+/Users/ecaterina/Documents/patent-pipeline/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Se procesează 10772 patente...
+🚀 Se folosește acceleratorul hardware: MPS
+Procesare rapidă pe placa video...
+
+Batches:   0%|          | 0/169 [00:00<?, ?it/s]
+Batches:   1%|          | 1/169 [00:08<24:58,  8.92s/it]
+Batches:   1%|          | 2/169 [00:16<22:06,  7.94s/it]
+Batches:   2%|▏         | 3/169 [00:24<22:27,  8.12s/it]
+Batches:   2%|▏         | 4/169 [00:33<23:38,  8.60s/it]
+Batches:   3%|▎         | 5/169 [00:38<20:06,  7.36s/it]
+Batches:   4%|▎         | 6/169 [00:44<18:06,  6.66s/it]
+Batches:   4%|▍         | 7/169 [00:49<16:42,  6.19s/it]
+Batches:   5%|▍         | 8/169 [00:56<17:17,  6.45s/it]
+Batches:   5%|▌         | 9/169 [01:01<16:00,  6.01s/it]
+Batches:   6%|▌         | 10/169 [01:06<14:48,  5.59s/it]
+Batches:   7%|▋         | 11/169 [01:10<13:46,  5.23s/it]
+Batches:   7%|▋         | 12/169 [01:16<14:29,  5.54s/it]
+Batches:   8%|▊         | 13/169 [01:21<13:19,  5.13s/it]
+Batches:   8%|▊         | 14/169 [01:25<12:19,  4.77s/it]
+Batches:   9%|▉         | 15/169 [01:30<13:07,  5.11s/it]
+Batches:   9%|▉         | 16/169 [01:35<12:22,  4.85s/it]
+Batches:  10%|█         | 17/169 [01:39<11:54,  4.70s/it]
+Batches:  11%|█         | 18/169 [01:43<11:17,  4.49s/it]
+Batches:  11%|█         | 19/169 [01:47<10:50,  4.34s/it]
+Batches:  12%|█▏        | 20/169 [01:51<10:49,  4.36s/it]
+Batches:  12%|█▏        | 21/169 [01:55<10:13,  4.15s/it]
+Batches:  13%|█▎        | 22/169 [01:59<09:58,  4.07s/it]
+Batches:  14%|█▎        | 23/169 [02:02<09:31,  3.91s/it]
+Batches:  14%|█▍        | 24/169 [02:06<08:55,  3.69s/it]
+Batches:  15%|█▍        | 25/169 [02:10<09:17,  3.87s/it]
+Batches:  15%|█▌        | 26/169 [02:13<08:53,  3.73s/it]
+Batches:  16%|█▌        | 27/169 [02:17<08:58,  3.79s/it]
+Batches:  17%|█▋        | 28/169 [02:21<08:53,  3.79s/it]
+Batches:  17%|█▋        | 29/169 [02:24<08:29,  3.64s/it]
+Batches:  18%|█▊        | 30/169 [02:28<08:32,  3.69s/it]
+Batches:  18%|█▊        | 31/169 [02:32<08:28,  3.68s/it]
+Batches:  19%|█▉        | 32/169 [02:35<07:57,  3.49s/it]
+Batches:  20%|█▉        | 33/169 [02:38<07:31,  3.32s/it]
+Batches:  20%|██        | 34/169 [02:41<07:26,  3.31s/it]
+Batches:  21%|██        | 35/169 [02:45<07:36,  3.40s/it]
+Batches:  21%|██▏       | 36/169 [02:50<08:30,  3.84s/it]
+Batches:  22%|██▏       | 37/169 [02:53<08:21,  3.80s/it]
+Batches:  22%|██▏       | 38/169 [03:00<09:55,  4.54s/it]
+Batches:  23%|██▎       | 39/169 [03:03<09:22,  4.32s/it]
+Batches:  24%|██▎       | 40/169 [03:07<08:38,  4.02s/it]
+Batches:  24%|██▍       | 41/169 [03:12<09:37,  4.51s/it]
+Batches:  25%|██▍       | 42/169 [03:16<09:06,  4.30s/it]
+Batches:  25%|██▌       | 43/169 [03:21<09:37,  4.58s/it]
+Batches:  26%|██▌       | 44/169 [03:25<09:11,  4.42s/it]
+Batches:  27%|██▋       | 45/169 [03:29<08:40,  4.20s/it]
+Batches:  27%|██▋       | 46/169 [03:33<08:16,  4.04s/it]
+Batches:  28%|██▊       | 47/169 [03:37<08:22,  4.12s/it]
+Batches:  28%|██▊       | 48/169 [03:41<08:02,  3.99s/it]
+Batches:  29%|██▉       | 49/169 [03:44<07:49,  3.92s/it]
+Batches:  30%|██▉       | 50/169 [03:48<07:36,  3.84s/it]
+Batches:  30%|███       | 51/169 [03:52<07:46,  3.95s/it]
+Batches:  31%|███       | 52/169 [03:57<08:08,  4.18s/it]
+Batches:  31%|███▏      | 53/169 [04:01<08:12,  4.25s/it]
+Batches:  32%|███▏      | 54/169 [04:05<07:45,  4.05s/it]
+Batches:  33%|███▎      | 55/169 [04:09<07:42,  4.06s/it]
+Batches:  33%|███▎      | 56/169 [04:13<07:32,  4.01s/it]
+Batches:  34%|███▎      | 57/169 [04:17<07:37,  4.08s/it]
+Batches:  34%|███▍      | 58/169 [04:21<07:19,  3.96s/it]
+Batches:  35%|███▍      | 59/169 [04:24<07:01,  3.83s/it]
+Batches:  36%|███▌      | 60/169 [04:28<06:46,  3.73s/it]
+Batches:  36%|███▌      | 61/169 [04:32<06:50,  3.80s/it]
+Batches:  37%|███▋      | 62/169 [04:35<06:32,  3.67s/it]
+Batches:  37%|███▋      | 63/169 [04:41<07:43,  4.37s/it]
+Batches:  38%|███▊      | 64/169 [04:45<07:06,  4.07s/it]
+Batches:  38%|███▊      | 65/169 [04:48<06:40,  3.85s/it]
+Batches:  39%|███▉      | 66/169 [04:51<06:15,  3.64s/it]
+Batches:  40%|███▉      | 67/169 [04:54<05:54,  3.48s/it]
+Batches:  40%|████      | 68/169 [04:58<05:44,  3.41s/it]
+Batches:  41%|████      | 69/169 [05:01<05:36,  3.36s/it]
+Batches:  41%|████▏     | 70/169 [05:04<05:24,  3.28s/it]
+Batches:  42%|████▏     | 71/169 [05:08<05:36,  3.43s/it]
+Batches:  43%|████▎     | 72/169 [05:11<05:34,  3.44s/it]
+Batches:  43%|████▎     | 73/169 [05:15<05:41,  3.56s/it]
+Batches:  44%|████▍     | 74/169 [05:19<05:41,  3.59s/it]
+Batches:  44%|████▍     | 75/169 [05:21<05:14,  3.35s/it]
+Batches:  45%|████▍     | 76/169 [05:24<04:54,  3.16s/it]
+Batches:  46%|████▌     | 77/169 [05:27<04:54,  3.20s/it]
+Batches:  46%|████▌     | 78/169 [05:30<04:39,  3.07s/it]
+Batches:  47%|████▋     | 79/169 [05:33<04:34,  3.05s/it]
+Batches:  47%|████▋     | 80/169 [05:36<04:29,  3.03s/it]
+Batches:  48%|████▊     | 81/169 [05:40<04:37,  3.15s/it]
+Batches:  49%|████▊     | 82/169 [05:42<04:18,  2.97s/it]
+Batches:  49%|████▉     | 83/169 [05:45<04:11,  2.92s/it]
+Batches:  50%|████▉     | 84/169 [05:48<04:02,  2.85s/it]
+Batches:  50%|█████     | 85/169 [05:51<04:01,  2.87s/it]
+Batches:  51%|█████     | 86/169 [05:54<04:06,  2.97s/it]
+Batches:  51%|█████▏    | 87/169 [05:57<04:02,  2.96s/it]
+Batches:  52%|█████▏    | 88/169 [05:59<03:54,  2.89s/it]
+Batches:  53%|█████▎    | 89/169 [06:02<03:38,  2.73s/it]
+Batches:  53%|█████▎    | 90/169 [06:05<03:39,  2.78s/it]
+Batches:  54%|█████▍    | 91/169 [06:07<03:28,  2.68s/it]
+Batches:  54%|█████▍    | 92/169 [06:10<03:28,  2.71s/it]
+Batches:  55%|█████▌    | 93/169 [06:13<03:24,  2.69s/it]
+Batches:  56%|█████▌    | 94/169 [06:15<03:15,  2.61s/it]
+Batches:  56%|█████▌    | 95/169 [06:17<03:09,  2.55s/it]
+Batches:  57%|█████▋    | 96/169 [06:20<02:57,  2.44s/it]
+Batches:  57%|█████▋    | 97/169 [06:22<02:52,  2.40s/it]
+Batches:  58%|█████▊    | 98/169 [06:24<02:46,  2.35s/it]
+Batches:  59%|█████▊    | 99/169 [06:26<02:38,  2.27s/it]
+Batches:  59%|█████▉    | 100/169 [06:28<02:35,  2.25s/it]
+Batches:  60%|█████▉    | 101/169 [06:31<02:30,  2.22s/it]
+Batches:  60%|██████    | 102/169 [06:33<02:26,  2.19s/it]
+Batches:  61%|██████    | 103/169 [06:35<02:20,  2.13s/it]
+Batches:  62%|██████▏   | 104/169 [06:37<02:29,  2.30s/it]
+Batches:  62%|██████▏   | 105/169 [06:40<02:27,  2.31s/it]
+Batches:  63%|██████▎   | 106/169 [06:42<02:17,  2.19s/it]
+Batches:  63%|██████▎   | 107/169 [06:44<02:13,  2.16s/it]
+Batches:  64%|██████▍   | 108/169 [06:45<02:02,  2.02s/it]
+Batches:  64%|██████▍   | 109/169 [06:47<02:01,  2.02s/it]
+Batches:  65%|██████▌   | 110/169 [06:49<01:59,  2.03s/it]
+Batches:  66%|██████▌   | 111/169 [06:51<01:54,  1.97s/it]
+Batches:  66%|██████▋   | 112/169 [06:53<01:47,  1.88s/it]
+Batches:  67%|██████▋   | 113/169 [06:55<01:44,  1.86s/it]
+Batches:  67%|██████▋   | 114/169 [06:56<01:37,  1.78s/it]
+Batches:  68%|██████▊   | 115/169 [06:59<01:45,  1.95s/it]
+Batches:  69%|██████▊   | 116/169 [07:00<01:39,  1.87s/it]
+Batches:  69%|██████▉   | 117/169 [07:02<01:34,  1.82s/it]
+Batches:  70%|██████▉   | 118/169 [07:04<01:39,  1.96s/it]
+Batches:  70%|███████   | 119/169 [07:06<01:37,  1.96s/it]
+Batches:  71%|███████   | 120/169 [07:08<01:30,  1.85s/it]
+Batches:  72%|███████▏  | 121/169 [07:10<01:27,  1.82s/it]
+Batches:  72%|███████▏  | 122/169 [07:12<01:39,  2.13s/it]
+Batches:  73%|███████▎  | 123/169 [07:15<01:42,  2.23s/it]
+Batches:  73%|███████▎  | 124/169 [07:16<01:30,  2.00s/it]
+Batches:  74%|███████▍  | 125/169 [07:18<01:21,  1.85s/it]
+Batches:  75%|███████▍  | 126/169 [07:20<01:17,  1.79s/it]
+Batches:  75%|███████▌  | 127/169 [07:21<01:12,  1.72s/it]
+Batches:  76%|███████▌  | 128/169 [07:23<01:08,  1.68s/it]
+Batches:  76%|███████▋  | 129/169 [07:24<01:08,  1.70s/it]
+Batches:  77%|███████▋  | 130/169 [07:26<01:05,  1.67s/it]
+Batches:  78%|███████▊  | 131/169 [07:28<01:06,  1.76s/it]
+Batches:  78%|███████▊  | 132/169 [07:30<01:03,  1.71s/it]
+Batches:  79%|███████▊  | 133/169 [07:31<01:01,  1.71s/it]
+Batches:  79%|███████▉  | 134/169 [07:33<00:58,  1.67s/it]
+Batches:  80%|███████▉  | 135/169 [07:35<00:58,  1.72s/it]
+Batches:  80%|████████  | 136/169 [07:36<00:52,  1.60s/it]
+Batches:  81%|████████  | 137/169 [07:37<00:48,  1.51s/it]
+Batches:  82%|████████▏ | 138/169 [07:39<00:47,  1.54s/it]
+Batches:  82%|████████▏ | 139/169 [07:40<00:44,  1.48s/it]
+Batches:  83%|████████▎ | 140/169 [07:42<00:40,  1.41s/it]
+Batches:  83%|████████▎ | 141/169 [07:43<00:37,  1.33s/it]
+Batches:  84%|████████▍ | 142/169 [07:45<00:43,  1.62s/it]
+Batches:  85%|████████▍ | 143/169 [07:46<00:38,  1.49s/it]
+Batches:  85%|████████▌ | 144/169 [07:48<00:40,  1.62s/it]
+Batches:  86%|████████▌ | 145/169 [07:49<00:35,  1.49s/it]
+Batches:  86%|████████▋ | 146/169 [07:51<00:32,  1.42s/it]
+Batches:  87%|████████▋ | 147/169 [07:52<00:32,  1.46s/it]
+Batches:  88%|████████▊ | 148/169 [07:54<00:32,  1.53s/it]
+Batches:  88%|████████▊ | 149/169 [07:56<00:32,  1.60s/it]
+Batches:  89%|████████▉ | 150/169 [07:57<00:27,  1.46s/it]
+Batches:  89%|████████▉ | 151/169 [07:58<00:27,  1.53s/it]
+Batches:  90%|████████▉ | 152/169 [07:59<00:23,  1.39s/it]
+Batches:  91%|█████████ | 153/169 [08:01<00:21,  1.33s/it]
+Batches:  91%|█████████ | 154/169 [08:02<00:19,  1.29s/it]
+Batches:  92%|█████████▏| 155/169 [08:03<00:16,  1.20s/it]
+Batches:  92%|█████████▏| 156/169 [08:04<00:14,  1.13s/it]
+Batches:  93%|█████████▎| 157/169 [08:05<00:13,  1.15s/it]
+Batches:  93%|█████████▎| 158/169 [08:06<00:11,  1.08s/it]
+Batches:  94%|█████████▍| 159/169 [08:07<00:11,  1.16s/it]
+Batches:  95%|█████████▍| 160/169 [08:09<00:10,  1.22s/it]
+Batches:  95%|█████████▌| 161/169 [08:09<00:08,  1.08s/it]
+Batches:  96%|█████████▌| 162/169 [08:10<00:07,  1.00s/it]
+Batches:  96%|█████████▋| 163/169 [08:11<00:06,  1.04s/it]
+Batches:  97%|█████████▋| 164/169 [08:12<00:04,  1.03it/s]
+Batches:  98%|█████████▊| 165/169 [08:13<00:03,  1.07it/s]
+Batches:  98%|█████████▊| 166/169 [08:14<00:03,  1.01s/it]
+Batches:  99%|█████████▉| 167/169 [08:15<00:01,  1.09it/s]
+Batches:  99%|█████████▉| 168/169 [08:16<00:00,  1.18it/s]
+Batches: 100%|██████████| 169/169 [08:17<00:00,  1.07it/s]
+Batches: 100%|██████████| 169/169 [08:17<00:00,  2.94s/it]
+Succes! Matricea de dimensiune (10772, 768) a fost salvată în results/antimono-1998-2012_20260317_0238/data/patent_embeddings.npy
+
+========================================
+
+--- 3. Construcție Graf ---
+Comandă: python -u src/build_graph.py --data_dir results/antimono-1998-2012_20260317_0238/data
+/Users/ecaterina/Documents/patent-pipeline/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Filtrare temporală: Am păstrat 4369 din 278967 citații.
+Succes! Graful a fost salvat în 'results/antimono-1998-2012_20260317_0238/data/hetero_graph.pt'.
+
+========================================
+
+--- 4. Antrenare DMON-DPR ---
+Comandă: python -u src/train.py --data_dir results/antimono-1998-2012_20260317_0238/data --model_dir results/antimono-1998-2012_20260317_0238/models
+/Users/ecaterina/Documents/patent-pipeline/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Epoch 020 | Modularity: 0.0042 | Dist: 0.1905
+Epoch 040 | Modularity: 0.0149 | Dist: 0.0333
+Epoch 060 | Modularity: 0.0494 | Dist: 0.0156
+Epoch 080 | Modularity: 0.1064 | Dist: 0.0096
+Epoch 100 | Modularity: 0.1468 | Dist: 0.0066
+Epoch 120 | Modularity: 0.1775 | Dist: 0.0049
+Epoch 140 | Modularity: 0.2034 | Dist: 0.0040
+Epoch 160 | Modularity: 0.2226 | Dist: 0.0036
+Epoch 180 | Modularity: 0.2386 | Dist: 0.0035
+Epoch 200 | Modularity: 0.2538 | Dist: 0.0034
+Antrenare finalizată cu algoritmul DMON-DPR.
+
+========================================
+
+--- 5. Analiză Clustere ---
+Comandă: python -u src/analyze.py --data_dir results/antimono-1998-2012_20260317_0238/data --model_dir results/antimono-1998-2012_20260317_0238/models
+/Users/ecaterina/Documents/patent-pipeline/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+
+--- Analiza DMON-DPR (High Fragmentation) ---
+     cluster  size  ...  unique_firms  fragmentation_index
+35        36    44  ...            11                0.250
+142      149    47  ...            23                0.489
+134      141    36  ...            18                0.500
+135      142    31  ...            15                0.484
+251      263    44  ...            11                0.250
+25        26    42  ...            29                0.690
+60        62    32  ...            24                0.750
+95        98    92  ...            58                0.630
+197      205    35  ...            26                0.743
+131      138    62  ...            24                0.387
+279      293   113  ...            70                0.619
+232      241    78  ...            48                0.615
+72        75    42  ...            11                0.262
+83        86    53  ...            64                1.208
+118      125    56  ...            46                0.821
+
+[15 rows x 6 columns]
+
+Rezultate salvate în results/antimono-1998-2012_20260317_0238/data/thicket_stats_dmon.csv
+
+========================================
+
+--- 6. Căutare Tripluri ---
+Comandă: python -u src/find_triples.py --data_dir results/antimono-1998-2012_20260317_0238/data
+
+--- Validare prin Metoda Triplurilor ---
+    cluster  num_triples  firms_involved_in_triples  total_firms_in_cluster
+0       293           12                         11                      37
+3        98            8                          6                      24
+5       142            6                          6                       8
+8       149            5                          6                      11
+11      241            5                          7                      26
+1       125            1                          3                      13
+2       274            1                          3                      18
+4         1            1                          3                      16
+6        15            1                          3                      22
+7        23            1                          3                      20
+Salvat în results/antimono-1998-2012_20260317_0238/data/triple_stats.csv
+
+========================================
+

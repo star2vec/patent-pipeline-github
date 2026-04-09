@@ -1,0 +1,237 @@
+EMBEDDING ARCHITECTURE EXPLANATION
+Patent Thicket Detection Pipeline
+===================================
+
+This document explains how PatentSBERTa embeddings and the DMoN-DPR GNN interact —
+specifically what each representation is, what gets modified during training, and
+the subtle dual role the original NLP embeddings play in the loss function.
+
+
+1. THE THREE REPRESENTATIONS
+─────────────────────────────
+The pipeline produces and uses three distinct numerical representations:
+
+  A. PatentSBERTa embeddings     — shape (n_patents, 768),  frozen
+  B. GCN latent representations  — shape (n_patents, 512),  learned, discarded after training
+  C. Soft cluster assignments    — shape (n_patents, K),    learned, this is the output
+
+These are not interchangeable. Each is computed from the previous and serves a
+different role.
+
+
+2. PATENTSBERTA EMBEDDINGS (embed.py)
+──────────────────────────────────────
+Model: AI-Growth-Lab/PatentSBERTa
+  - A BERT-based model fine-tuned on patent text
+  - max_seq_length = 512 tokens (patent title + abstract are concatenated as input)
+  - Pooling: mean pooling over all non-padding token embeddings (built into SentenceTransformer)
+    This produces one fixed-length vector per patent regardless of text length
+  - Normalization: L2-normalized so every vector lies on the unit hypersphere in R^768
+    (normalize_embeddings=True on GPU/MPS; CPU path uses multiprocessing pool for speed)
+  - Output: (n_patents, 768) float32 numpy array, saved to patent_embeddings.npy
+
+What these vectors encode: semantic similarity in a patent-specific language space.
+Two patents with similar technology and vocabulary will have high cosine similarity.
+These embeddings are computed ONCE and cached. They are NEVER modified — no gradients
+flow back into PatentSBERTa at any point in the pipeline.
+
+Firm nodes also exist in the graph but their "embeddings" are trivial: a single
+column of all zeros, shape (n_firms, 1). They are placeholder features only.
+
+
+3. GRAPH CONSTRUCTION (build_graph.py)
+────────────────────────────────────────
+The 768-dim PatentSBERTa vectors become node features in a HeteroData graph:
+
+  data['patent'].x           = (n_patents, 768) float32  ← the NLP embeddings
+  data['firm'].x             = (n_firms,   1)   float32  ← all zeros
+  (patent, cites, patent)    = citation edges, filtered to 0–5 year temporal window
+  (firm,   owns,  patent)    = ownership edges
+
+Important: the GNN forward pass only uses the patent-cites-patent edges and the
+patent node features. The firm nodes and ownership edges are present in the graph
+object but the model does not process them — they are used only for post-hoc
+analysis (fragmentation index in analyze.py).
+
+
+4. THE GCNCONV TRANSFORMATION — 768 → 512 (model_dmon.py)
+──────────────────────────────────────────────────────────
+Layer: GCNConv(in_channels=768, out_channels=512)
+
+This is a single-layer graph convolutional network using the Kipf & Welling (2017)
+formulation, as implemented in PyTorch Geometric. The exact computation is:
+
+  h_i = ReLU( W · Σ_{j ∈ N(i) ∪ {i}} (d̂_i · d̂_j)^{-0.5} · x_j  +  b )
+
+where:
+  x_j     = 768-dim PatentSBERTa embedding of node j
+  N(i)    = set of nodes that cite node i (or are cited by i — undirected treatment)
+  d̂_i    = degree of node i after self-loops are added (PyG adds self-loops by default)
+  W       = learnable weight matrix, shape (768, 512)
+  b       = learnable bias vector, shape (512,)
+
+In plain language:
+  - For each patent i, gather the embeddings of all its citation neighbors plus itself
+  - Weight each neighbor's embedding by the inverse square root of both degrees
+    (this symmetric normalization prevents high-degree nodes from dominating)
+  - Sum them up, project through W (768→512), add bias, apply ReLU
+
+This produces x_latent, shape (n_patents, 512). Each row is a graph-aware
+re-encoding of a patent — it has absorbed information from the patent's citation
+neighborhood, not just the patent's own text.
+
+The 512-dim x_latent is a learned intermediate representation. It exists only
+during the forward pass and is discarded immediately after. It is not saved to disk
+and it does not appear in the loss function.
+
+
+5. SOFT CLUSTER ASSIGNMENTS — 512 → K (model_dmon.py)
+───────────────────────────────────────────────────────
+After GCNConv:
+
+  scores = Linear(512, K)(x_latent)    # shape (n_patents, K)
+  c      = softmax(scores, dim=-1)     # shape (n_patents, K)
+
+c[i, k] is the probability that patent i belongs to cluster k.
+Each row sums to 1. This is the "soft" or "fuzzy" assignment — patents can
+have partial membership in multiple clusters during training.
+
+The Linear(512, K) layer has its own learnable weights (shape 512×K) and bias
+(shape K). These, together with the GCNConv weights, are the only parameters
+trained by gradient descent.
+
+Final hard assignments in analyze.py:
+
+  cluster_id[i] = argmax_k  c[i, k]
+
+This collapses the soft probability vector to the single most probable cluster.
+
+
+6. THE LOSS FUNCTION AND ITS RELATIONSHIP TO EMBEDDINGS (train.py)
+────────────────────────────────────────────────────────────────────
+Loss = l_mod  +  l_collapse  +  W_dist · l_dist  +  W_var · l_var  +  0.1 · l_entropy
+
+All five terms operate on c (the soft assignments) and/or x (the original 768-dim
+embeddings). The 512-dim x_latent does NOT appear in any loss term.
+
+  l_mod (modularity):
+    = -[ tr(cᵀ A c) - tr(cᵀ (d dᵀ / 2m) c) ] / (2m)
+    A    = citation adjacency matrix
+    d    = degree vector (column vector of node degrees)
+    m    = total number of edges
+    Maximising modularity encourages patents that cite each other to land in the
+    same cluster, while patents with no citation relationship are pushed apart.
+    Negated because we minimise loss.
+
+  l_collapse (anti-collapse):
+    = (√K / n) · ‖ c.sum(dim=0) ‖_F  -  1
+    Penalises solutions where most patents are assigned to a single cluster.
+    The Frobenius norm of the column sums measures how "unbalanced" the assignment
+    is; the -1 offset anchors the target at a balanced state.
+
+  l_dist (cluster distance / semantic separation):
+    μ_k  = (cᵀ x)_k / c.sum(dim=0)_k          # weighted centroid of cluster k in R^768
+    μ    = (K, 768) matrix of all cluster centroids
+    l_dist = [1 / (K(K-1))] · Σ_{i≠j} ReLU(1.0 - ‖μ_i - μ_j‖²)
+
+    *** CRITICAL: centroids are computed in the ORIGINAL 768-dim PatentSBERTa space ***
+    Not in the 512-dim latent space — in the raw NLP embedding space.
+
+    Interpretation: if two cluster centroids are closer than distance 1.0 in the
+    semantic embedding space, a penalty is applied. ReLU means there's no reward
+    for being further apart than 1.0 — only a cost for being too close.
+
+    This term connects back to the original NLP embeddings: it forces the learned
+    cluster assignments c to partition patents such that, when you compute the
+    centre-of-mass of each cluster's NLP vectors, those centres are spread out.
+
+  l_var (variance regularisation):
+    = -mean( var(c, dim=0) )
+    var(c, dim=0) is the variance of each column of c across all n patents.
+    High variance means some patents have high probability for cluster k and
+    others have low probability — i.e., the assignment is discriminative.
+    Negating and minimising this encourages the model not to push all probabilities
+    toward uniform 1/K.
+
+  l_entropy (entropy regularisation):
+    = -mean( Σ_k  c[i,k] · log(c[i,k]) )
+    Shannon entropy of each patent's assignment row, averaged over patents.
+    Low entropy = peaked distribution = confident assignment.
+    Minimising the negative entropy encourages confident, crisp decisions.
+
+Gradient flow: the loss is differentiated with respect to the GCNConv weights W,
+the GCNConv bias b, and the Linear(512,K) weights and bias. The 768-dim input
+tensor x has requires_grad=False — no gradient is computed or applied to it.
+
+
+7. THE DUAL ROLE OF 768-DIM EMBEDDINGS
+────────────────────────────────────────
+The PatentSBERTa 768-dim vectors are used in two fundamentally different ways:
+
+  Role 1 — Input features to the GNN
+    They are the starting point of the message-passing computation.
+    The GCNConv layer learns W to project them into a 512-dim space that is
+    simultaneously semantically meaningful (preserving linguistic structure) and
+    graph-aware (incorporating citation neighbourhood context).
+
+  Role 2 — Centroid space for the distance penalty
+    Cluster centroids μ are computed as soft-weighted averages of the original
+    768-dim vectors, not the 512-dim latent vectors:
+        μ_k = Σ_i c[i,k] · x_i  /  Σ_i c[i,k]
+    The distance penalty then operates entirely in R^768.
+
+    This means the optimiser must learn cluster assignments that are coherent in
+    the original pre-trained semantic space. Even though the GNN transforms those
+    embeddings into a different 512-dim space for the actual clustering computation,
+    the constraint on cluster separation is enforced back in the NLP embedding space.
+
+    Consequence: the model cannot "cheat" by finding a 512-dim projection that
+    makes arbitrary groups look well-separated; the groups must also be semantically
+    separated in the language model's original representation.
+
+
+8. FULL DIMENSIONAL JOURNEY
+────────────────────────────
+                               frozen (no grad)
+Patent text (title+abstract)
+        │
+        ▼  PatentSBERTa (AI-Growth-Lab/PatentSBERTa)
+        │  mean pooling over 512 BERT tokens → 768-dim
+        │  L2 normalisation → unit sphere in R^768
+        ▼
+  x : (n_patents, 768)   ← saved to patent_embeddings.npy, never modified
+        │                ← also used directly in l_dist centroid computation
+        │
+        ▼  GCNConv(768, 512) — learns W(768×512), b(512)
+        │  symmetric normalisation over citation neighbourhood
+        │  ReLU activation
+        ▼
+  x_latent : (n_patents, 512)  ← graph-aware re-encoding; NOT saved; NOT in loss
+        │
+        ▼  Linear(512, K) — learns W(512×K), b(K)
+        │  softmax(dim=-1)
+        ▼
+  c : (n_patents, K)   ← soft assignments; optimised by 5-term loss
+        │
+        ▼  argmax(dim=-1)   [inference only, no gradient]
+        ▼
+  cluster_id : (n_patents,)   ← final hard cluster per patent
+
+
+9. WHY THE NLP EMBEDDINGS ARE NOT FINE-TUNED
+──────────────────────────────────────────────
+PatentSBERTa has ~110M parameters. Fine-tuning it end-to-end would:
+  - Require backpropagating through BERT for every patent in every epoch
+  - Destroy the general-purpose semantic structure that makes the representations
+    useful for the distance penalty
+  - Require far more GPU memory and compute
+  - Risk overfitting to the specific citation graph structure
+
+By freezing the NLP embeddings, the pipeline separates concerns cleanly:
+  - Semantic meaning is handled by the pre-trained language model (offline, once)
+  - Graph structure (citation topology) is handled by the GCN
+  - Cluster geometry is enforced by the DMoN-DPR loss
+
+The GCN's job is not to replace the NLP embeddings but to blend them with
+topological information so that patents which are both semantically similar AND
+embedded in the same citation neighbourhood end up with similar cluster assignments.

@@ -1,0 +1,9 @@
+Flask==3.0.0
+numpy
+pandas
+scikit-learn
+torch
+sentence_transformers
+tqdm
+torch_geometric
+networkx
