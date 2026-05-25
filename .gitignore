@@ -8,3 +8,6 @@ __pycache__/
 .DS_Store
 # Add any large data folders here, for example:
 data/
+raw_inputs/
+raw-inputs/
+results/

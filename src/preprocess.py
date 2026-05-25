@@ -7,15 +7,52 @@ from tqdm import tqdm
 
 # Trailing legal entity suffixes to strip from firm names
 _LEGAL = re.compile(
-    r'[,\s]+(INC|LLC|LTD|CORP(?:ORATION)?|CO(?:MPANY)?|GMBH|AG|SA|BV|NV|PLC|KK|KABUSHIKI\s+KAISHA|S\.?P\.?A|S\.?R\.?L|AB|OY|AS|ASA)\.?$',
+    r'[,\s]+(INC|LLC|LP|LLP|LTD|LIMITED|CORP(?:ORATION)?|CO(?:MPANY)?|GMBH|AG|SA|BV|NV|PLC|KK|KABUSHIKI\s+KAISHA'
+    r'|S\.?P\.?A|S\.?R\.?L|AB|OY|AS|ASA|INDUSTRIES|HOLDINGS|GROUP|TECHNOLOGIES|IP|R&D)\.?$',
     re.IGNORECASE
 )
+_THE_PREFIX = re.compile(r'^THE\s+', re.IGNORECASE)
+_ALIAS_PATH = os.path.join('raw-inputs', 'firm_aliases.csv')
+_ALIASES = None  # lazily loaded list of (compiled_pattern, canonical)
+
+def _load_aliases(path=_ALIAS_PATH):
+    """Read raw-inputs/firm_aliases.csv into a list of (regex, canonical) tuples."""
+    if not os.path.exists(path):
+        return []
+    try:
+        df = pd.read_csv(path, dtype=str).fillna('')
+    except Exception:
+        return []
+    out = []
+    for _, row in df.iterrows():
+        pat, canon = row.get('pattern', '').strip(), row.get('canonical', '').strip()
+        if pat and canon:
+            try:
+                out.append((re.compile(pat, re.IGNORECASE), canon))
+            except re.error:
+                continue
+    return out
 
 def _normalize_firm(name):
-    """Uppercase, strip trailing legal suffixes and punctuation, collapse whitespace."""
+    """Uppercase, strip suffixes/prefix iteratively, then apply alias map."""
+    global _ALIASES
+    if _ALIASES is None:
+        _ALIASES = _load_aliases()
+
     name = name.upper().strip()
-    name = _LEGAL.sub('', name).strip().rstrip(',.').strip()
-    return re.sub(r'\s+', ' ', name)
+    # Iteratively strip trailing legal suffixes so chains like "CO LTD" collapse fully
+    prev = None
+    while prev != name:
+        prev = name
+        name = _LEGAL.sub('', name).strip().rstrip(',.&').strip()
+    name = _THE_PREFIX.sub('', name).strip()
+    name = re.sub(r'\s+', ' ', name)
+
+    # Apply first matching alias (manual subsidiary / abbreviation map)
+    for pattern, canonical in _ALIASES:
+        if pattern.match(name):
+            return canonical
+    return name
 
 def _clean_claim(text):
     """Strip leading claim number ('1. ') and normalize whitespace."""
@@ -102,8 +139,18 @@ def preprocess_patents(input_file, out_dir):
                     citations.append({'citing': citing_id, 'cited': patent_id})
 
     pd.DataFrame(patents).drop_duplicates('patent_id').to_csv(f'{out_dir}/processed_patents.csv', index=False)
-    pd.DataFrame(ownership).drop_duplicates().to_csv(f'{out_dir}/ownership_edges.csv', index=False)
+    df_own = pd.DataFrame(ownership).drop_duplicates()
+    df_own.to_csv(f'{out_dir}/ownership_edges.csv', index=False)
     pd.DataFrame(citations).drop_duplicates().to_csv(f'{out_dir}/citation_edges.csv', index=False)
+
+    # Diagnostic: top firms by patent count (drives manual extension of firm_aliases.csv)
+    if not df_own.empty:
+        firm_counts = df_own['firm'].value_counts().head(100)
+        firm_counts.to_csv(f'{out_dir}/firm_counts_top100.csv', header=['patent_count'])
+        n_unique = df_own['firm'].nunique()
+        print(f"Top 100 firms after normalization → {out_dir}/firm_counts_top100.csv "
+              f"({n_unique} unique firms total). Eyeball the top rows; add patterns to "
+              f"{_ALIAS_PATH} if you see obvious duplicates (e.g. SAMSUNG ELECTRONICS vs SAMSUNG DISPLAY).")
 
     print(f"Done! Kept {len(patents)} patents ({len(skip_ids)} family duplicates skipped) and {len(citations)} citation links.")
 
